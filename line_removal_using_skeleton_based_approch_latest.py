@@ -3,11 +3,11 @@ import cv2
 import numpy as np
 import os
 
-mixture_dir = "/media/usama/SSD/Line_removal_using_skeletonization/test_1/"
-output_dir = "/media/usama/SSD/Line_removal_using_skeletonization/Filled_regions_test_data_3_feb_2025/Filled_regions_test_data_4_feb_2025/"
-mixture_dir_out = f"{output_dir}/mixture_outputs_with_child_cont_filled_4_feb_11"
-roads_dir_out = f"{output_dir}/roads_outputs_with_child_cont_filled_4_feb_11"
-regions_dir_out = f"{output_dir}/regions_outputs_with_child_cont_filled_4_feb_11"
+mixture_dir = "/media/usama/SSD/Line_removal_using_skeletonization/Filled_regions_test_data_3_feb_2025/mixture_images_previous_filled/"
+output_dir = "/media/usama/SSD/Line_removal_using_skeletonization/"
+mixture_dir_out = f"{output_dir}/mixture_outputs_7_feb_11"
+roads_dir_out = f"{output_dir}/roads_outputs_7_feb"
+regions_dir_out = f"{output_dir}/regions_outputs_7_feb"
 if not os.path.exists(mixture_dir_out):
     os.makedirs(mixture_dir_out)
 if not os.path.exists(roads_dir_out):
@@ -23,7 +23,7 @@ for mixture_image in mixture_images:
 
     # Binarization
     # _, binary = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY)
-    kernel = np.ones((3, 3), np.uint8) 
+    # kernel = np.ones((3, 3), np.uint8) 
     
     blurred = cv2.GaussianBlur(image, (7, 7), 0)
 
@@ -40,7 +40,7 @@ for mixture_image in mixture_images:
     # # Apply skeletonization
     skeleton = skeletonize(binary_bool).astype(np.uint8) * 255
     # binary = cv2.dilate(binary,kernel,iterations=2)
-    skeleton = cv2.dilate(skeleton,kernel,iterations=2)
+    # skeleton = cv2.dilate(skeleton,kernel,iterations=2)
     mask = cv2.subtract(binary, skeleton)
     # mask = cv2.dilate(mask,kernel,iterations=1)
     # _,mask = cv2.threshold(mask,10,255,cv2.THRESH_BINARY)
@@ -51,9 +51,9 @@ for mixture_image in mixture_images:
     # mask = cv2.medianBlur(mask,5)
 
     # _, mask = cv2.threshold(mask,200, 255, cv2.THRESH_BINARY)
-    cv2.imwrite(f"{regions_dir_out}/{mixture_image}",mask)
-    cv2.imwrite(f"{regions_dir_out}/skelton_{mixture_image}",skeleton)
-    cv2.imwrite(f"{regions_dir_out}/binary_{mixture_image}",binary)  # mask
+    cv2.imwrite(f"{mixture_dir_out}/{mixture_image}",mask)
+    # cv2.imwrite(f"{regions_dir_out}/skelton_{mixture_image}",skeleton)
+    # cv2.imwrite(f"{regions_dir_out}/binary_{mixture_image}",binary)  # mask
 
-    cv2.imwrite(f"Bang_{mixture_image}",mask)
+    # cv2.imwrite(f"Bang_{mixture_image}",mask)
     # cv2.imwrite(f"skelton_{mixture_image}",skeleton)
